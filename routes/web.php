@@ -13,14 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/sobrenos', function () {
-    return 'Olá, você esta em sobre nós';
-});
+Route::get('/',[App\Http\Controllers\PrincipalController::class,'index']);
+Route::get('/sobre',[App\Http\Controllers\SobreNosController::class,'index']);
+Route::get('/contato',[App\Http\Controllers\ContatoController::class,'index']);
 
-Route::get('/contato', function () {
-    return 'Olá, você está em contatos';
-});
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::get('/sobrenos', function () {
+//     return 'Olá, você esta em sobre nós';
+// });
+
+// Route::get('/contato', function () {
+//     return 'Olá, você está em contatos';
+// });
