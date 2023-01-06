@@ -8,6 +8,11 @@ class SobreNosController extends Controller
 {
     public function index()
     {
-        return view('site.sobre');
+
+        $output = array(
+            'titulo' => 'Super Gestão - Sobre nós'
+        );
+
+        return view('site.sobre', $output);
     }
 }
