@@ -8,6 +8,20 @@ class ContatoController extends Controller
 {
     public function index()
     {
-        return view('site.contato');
+
+       
+
+        // if($_POST){
+        //     print_r($_POST);
+        //     exit;
+
+        // }
+
+
+        $output = array(
+            'titulo' => 'Super Gestão - Contato'
+        );
+
+        return view('site.contato', $output);
     }
 }
