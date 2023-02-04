@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\PrincipalController::class, 'index'])->name('site.index');
 Route::get('/sobre', [App\Http\Controllers\SobreNosController::class, 'index'])->name('site.sobrenos');
 Route::get('/contato', [App\Http\Controllers\ContatoController::class, 'index'])->name('site.contato');
-Route::post('/contato', [App\Http\Controllers\ContatoController::class, 'index'])->name('site.contato');
+Route::post('/contato', [App\Http\Controllers\ContatoController::class, 'salvar'])->name('site.contato');
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('site.login');
 
 Route::prefix('/app')->group(function () {
