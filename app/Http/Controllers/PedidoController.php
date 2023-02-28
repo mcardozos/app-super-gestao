@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Pedido;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
+class PedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,15 +15,15 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-
-        $clientes = Cliente::paginate(10);
+        $pedidos = Pedido::paginate(10);
 
         $output = array(
-            'clientes' => $clientes,
+            'pedidos' => $pedidos,
             'request' => $request->all(),
         );
 
-        return view('app.cliente.index', $output);
+        return view('app.pedido.index', $output);
+
     }
 
     /**
@@ -32,7 +33,14 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('app.cliente.create');
+
+        $clientes = Cliente::all();
+
+        $output = array(
+            'clientes' => $clientes,
+        );
+
+        return view('app.pedido.create', $output);
     }
 
     /**
@@ -44,24 +52,20 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $regras = array(
-            'nome' => 'required|min:3|max:40',
+            'cliente_id' => 'exists:clientes,id',
         );
 
         $feedback = array(
-            'required' => 'O campo :attribute é obrigatório',
-            'nome.min' => 'O campo deve ter no mínimo 3 caracteres',
-            'nome.max' => 'O campo deve ter no máximo 40 caracteres'
-
+            'cliente_id.exists' => 'Selecione o cliente para cadastrar'
         );
 
         $request->validate($regras, $feedback);
 
-        
-        $cliente = new Cliente();
-        $cliente->nome = $request->get('nome');
-        $cliente->save();
+        $pedido = new Pedido();
+        $pedido->cliente_id = $request->get('cliente_id');
+        $pedido->save();
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('pedido.index');
     }
 
     /**
