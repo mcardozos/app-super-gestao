@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PedidoProdutoController;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\ProdutoDetalheController;
 use App\Http\Middleware\logAcessoMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -25,9 +30,26 @@ Route::post('/login', [App\Http\Controllers\LoginController::class, 'autenticar'
 Route::middleware('autenticacao')->prefix('/app')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('app.home');
     Route::get('/sair', [App\Http\Controllers\LoginController::class, 'sair'])->name('app.sair');
-    Route::get('/cliente', [App\Http\Controllers\ClienteController::class, 'index'])->name('app.cliente');
+
     Route::get('/fornecedor', [App\Http\Controllers\FornecedorController::class, 'index'])->name('app.fornecedor');
-    Route::get('/produto', [App\Http\Controllers\ProdutoController::class, 'index'])->name('app.produto');
+    Route::post('/fornecedor/listar', [App\Http\Controllers\FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
+    Route::get('/fornecedor/listar', [App\Http\Controllers\FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
+    Route::get('/fornecedor/adicionar', [App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
+    Route::get('/fornecedor/editar/{id}/{msg?}', [App\Http\Controllers\FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
+    Route::get('/fornecedor/excluir/{id}', [App\Http\Controllers\FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
+    Route::post('/fornecedor/adicionar', [App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
+
+    // Route::get('/produto', [App\Http\Controllers\ProdutoController::class, 'index'])->name('app.produto');
+    Route::resource('produto',ProdutoController::class);
+    Route::resource('produto-detalhe',ProdutoDetalheController::class);
+    
+    Route::resource('cliente',ClienteController::class);
+    Route::resource('pedido',PedidoController::class);
+    // Route::resource('pedido-produto',PedidoProdutoController::class);
+    Route::get('pedido-produto/create/{pedido}', [App\Http\Controllers\PedidoProdutoController::class,'create'])->name('pedido-produto.create');
+    Route::post('pedido-produto/store/{pedido}', [App\Http\Controllers\PedidoProdutoController::class,'store'])->name('pedido-produto.store');
+    // Route::delete('pedido-produto.destroy/{pedido}/{produto}',[App\Http\Controllers\PedidoProdutoController::class,'destroy'])->name('pedido-produto.destroy');
+    Route::delete('pedido-produto.destroy/{pedidoProduto}',[App\Http\Controllers\PedidoProdutoController::class,'destroy'])->name('pedido-produto.destroy');
 });
 
 Route::fallback(function(){
